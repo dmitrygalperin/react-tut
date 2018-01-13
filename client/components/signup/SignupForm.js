@@ -48,10 +48,10 @@ class SignupForm extends React.Component {
             text: 'You have signed up successfully.'
           });
           this.context.router.history.push('/');
-        })/*
+        })
         .catch((err) => {
           this.setState({errors: err.response.data, isLoading: false});
-        })*/
+        })
     }
   }
 
