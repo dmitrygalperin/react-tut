@@ -1,9 +1,10 @@
-import { SET_CURRENT_USER } from '../actions/types';
+import { SET_CURRENT_USER, SET_REQUESTED_PATH } from '../actions/types';
 import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
   isAuthenticated: false,
-  user: {}
+  user: {},
+  requestedPath: ''
 }
 
 export default (state = initialState, action = {}) => {
@@ -12,6 +13,10 @@ export default (state = initialState, action = {}) => {
       return {
         isAuthenticated: !isEmpty(action.user),
         user: action.user
+      }
+    case SET_REQUESTED_PATH:
+      return {
+        requestedPath: action.path
       }
     default: return state;
   }

@@ -31,11 +31,13 @@ class LoginForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
+    let requestedPath = this.props.requestedPath || '/';
+    
     if(this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state)
         .then((res) => {
-          this.context.router.history.push('/');
+          this.context.router.history.push(requestedPath);
         })
         .catch((err) => {
           this.setState({errors: err.response.data.errors, isLoading: false});
@@ -87,4 +89,10 @@ LoginForm.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-export default connect(null, { login })(LoginForm);
+function mapStateToProps(state) {
+  return {
+    requestedPath: state.auth.requestedPath
+  }
+}
+
+export default connect(mapStateToProps, { login })(LoginForm);

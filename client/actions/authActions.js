@@ -1,7 +1,7 @@
 import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
-import { SET_CURRENT_USER } from './types';
+import { SET_CURRENT_USER, SET_REQUESTED_PATH } from './types';
 
 export function setCurrentUser(user) {
   return {
@@ -26,5 +26,14 @@ export function logout(data) {
     localStorage.removeItem('token');
     setAuthorizationToken(false);
     dispatch(setCurrentUser({}));
+  }
+}
+
+export function setRequestedPath(path) {
+  return dispatch => {
+    dispatch({
+      type: SET_REQUESTED_PATH,
+      path
+    })
   }
 }

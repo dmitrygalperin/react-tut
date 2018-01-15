@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, browserHistory } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -9,13 +10,7 @@ import setAuthorizationToken from './utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 import { setCurrentUser } from './actions/authActions';
 
-import requireAuth from './utils/requireAuth';
-
-import App from './components/App';
-import Greetings from './components/Greetings';
-import SignupPage from './components/signup/SignupPage';
-import LoginPage from './components/login/LoginPage';
-import Protected from './components/Protected';
+import App from './App';
 
 const store = createStore (
   rootReducer,
@@ -30,16 +25,11 @@ if(localStorage.token) {
   store.dispatch(setCurrentUser(jwtDecode(localStorage.token)));
 }
 
-render ((
-    <Provider store={store}>
-      <Router>
-        <div className="container">
-          <Route path="/" component={App} />
-          <Route exact path="/" component={Greetings} />
-          <Route exact path="/signup" component={SignupPage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/protected" component={requireAuth(Protected)} />
-        </div>
-      </Router>
-    </Provider>
-  ), document.getElementById('app'));
+ReactDOM.render(
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>,
+  document.getElementById('app')
+);

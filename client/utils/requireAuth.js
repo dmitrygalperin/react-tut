@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addFlashMessage } from '../actions/flashMessages';
+import { setRequestedPath } from '../actions/authActions';
 
 export default function(ComposedComponent) {
   class Authenticate extends React.Component {
@@ -11,6 +12,7 @@ export default function(ComposedComponent) {
           type: 'error',
           text: 'You need to login to access this page'
         });
+        this.props.setRequestedPath(this.context.router.route.location.pathname);
         this.context.router.history.push('/login');
       }
     }
@@ -39,9 +41,10 @@ export default function(ComposedComponent) {
 
   function mapStateToProps(state) {
     return {
-      isAuthenticated: state.auth.isAuthenticated
+      isAuthenticated: state.auth.isAuthenticated,
+      requestedPath: state.auth.requestedPath
     }
   }
 
-  return connect(mapStateToProps, { addFlashMessage })(Authenticate);
+  return connect(mapStateToProps, { addFlashMessage, setRequestedPath })(Authenticate);
 }
